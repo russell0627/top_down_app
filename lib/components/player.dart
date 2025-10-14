@@ -160,6 +160,10 @@ class Player extends PositionComponent
       _interactWithDoor();
     }
 
+    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.keyQ) {
+      _toggleInventory();
+    }
+
     return true;
   }
 
@@ -285,5 +289,16 @@ class Player extends PositionComponent
     }
 
     if (closestDist < 75) closestDoor.toggle();
+  }
+
+  /// Toggles the inventory overlay and pauses/resumes the game.
+  void _toggleInventory() {
+    if (game.overlays.isActive('Inventory')) {
+      game.overlays.remove('Inventory');
+      game.resumeEngine();
+    } else {
+      game.overlays.add('Inventory');
+      game.pauseEngine();
+    }
   }
 }

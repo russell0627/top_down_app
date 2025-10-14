@@ -10,6 +10,7 @@ import 'components/door.dart';
 import 'components/obstacle.dart';
 import 'components/player.dart';
 import 'components/player_projectile.dart';
+import 'components/fog_of_war.dart';
 import 'components/sound_echo.dart';
 
 /// This class is the main entry point for the game.
@@ -47,6 +48,9 @@ class MyGame extends FlameGame
     // The `size` property is the dimensions of the game canvas.
     add(RectangleComponent(size: size, paint: paint));
 
+    // Add the Fog of War component to the game.
+    add(FogOfWar(player: player));
+
   }
 
   Future<void> _buildWorld() async {
@@ -59,6 +63,10 @@ class MyGame extends FlameGame
     add(Obstacle(position: Vector2(300, 200))..size = Vector2(200, 20));
     add(Obstacle(position: Vector2(300, 400))..size = Vector2(200, 20));
     add(Obstacle(position: Vector2(200, 300))..size = Vector2(20, 200));
+
+    // Add wall segments to close the gap around the door.
+    add(Obstacle(position: Vector2(400, 230))..size = Vector2(20, 40)); // Above door
+    add(Obstacle(position: Vector2(400, 370))..size = Vector2(20, 40)); // Below door
 
     // Add a door to the room.
     add(Door(position: Vector2(400, 300), size: Vector2(20, 100)));
@@ -107,7 +115,7 @@ class MyGame extends FlameGame
         position: player.position.clone(),
         direction: (event.localPosition - player.position),
       ));
-      add(SoundEcho(position: player.position.clone(), radius: 700.0));
+      add(SoundEcho(position: player.position.clone(), radius: 700.0, lifetime: 3.0));
 
       // A gunshot alerts all enemies on the map.
       final enemies = children.whereType<Enemy>();

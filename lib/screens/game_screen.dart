@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import '../game.dart';
+import '../ui/inventory_overlay.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -21,7 +22,12 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // The GameWidget is the widget that runs the Flame game.
-      body: GameWidget(game: MyGame(onGameOver: _onGameOver)),
+      body: GameWidget(
+        game: MyGame(onGameOver: _onGameOver),
+        overlayBuilderMap: {
+          'Inventory': (context, game) => InventoryOverlay(game: game as MyGame),
+        },
+      ),
     );
   }
 }

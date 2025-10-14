@@ -27,7 +27,7 @@ class SoundEcho extends PositionComponent {
     add(
       CircleComponent(
         radius: radius / 2,
-        paint: Paint()..color = Colors.lightBlueAccent.withOpacity(0.5),
+        paint: Paint()..color = Colors.lightBlueAccent.withOpacity(0.2),
       )..add(OpacityEffect.fadeOut(EffectController(duration: lifetime))),
     );
 
